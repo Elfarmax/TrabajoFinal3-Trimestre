@@ -184,14 +184,14 @@ footer {
   text-decoration: none;
   font-weight: bold;
   transition: color 0.3s ease, font-size 0.3s ease;
-  font-size: 1.1em;
+  font-size: 1.3em;
   padding: 0.5em 1em;
   border-radius: 5px;
   background-color: #e9ecef;
 }
 
 .featured-categories ul li a:hover {
-  color: #0056b3;
+  color: #0da412;
   background-color: #dee2e6;
   transform: scale(1.05);
 }
@@ -236,25 +236,6 @@ footer {
   }
 }
 
-@media (max-width: 480px) {
-  .hero h2 {
-    font-size: 2em;
-  }
-
-  .hero p {
-    font-size: 1em;
-  }
-
-  .explorar-categorias-btn {
-    font-size: 1em;
-    padding: 10px 20px;
-  }
-
-  .topps-simplicidad img {
-    width: 100%;
-  }
-}
-
 /* Estilos para el icono del carrito en la navegación (AÑADIDO) */
 header nav ul li.carrito a img {
   width: 27px; /* Ajusté el tamaño a 25px como ejemplo */
@@ -274,4 +255,40 @@ header nav ul li.carrito a {
   align-items: center;
   gap: 5px;
   padding: 0.5em 0;
+}
+
+@media (max-width: 480px) {
+  .hero h2 {
+    font-size: 2em;
+  }
+
+  .hero p {
+    font-size: 1em;
+  }
+
+  .explorar-categorias-btn {
+    font-size: 1em;
+    padding: 10px 20px;
+  }
+
+  .topps-simplicidad img {
+    width: 100%;
+  }
+}
+
+/* Estilos para el footer */
+footer {
+  background-color: #333; /* Puedes cambiar el color de fondo */
+  color: white;
+  padding: 20px 0; /* Añade un poco de padding arriba y abajo */
+  text-align: center; /* Centra el texto */
+  margin-top: 50px; /* Añade un margen superior para separarlo del contenido */
+  width: 100%; /* Ocupa todo el ancho */
+  position: relative; /* Asegura que se comporte como bloque */
+  bottom: 0; /* Si quieres que esté siempre abajo (puede superponerse en contenido corto) */
+}
+
+footer p {
+  margin: 0; /* Elimina el margen predeterminado del párrafo */
+  font-size: 0.9em; /* Ajusta el tamaño de la fuente si lo deseas */
 }

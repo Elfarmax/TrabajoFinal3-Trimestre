@@ -21,7 +21,7 @@
                 <li><a href="cartas_autographed.php">Autographed</a></li>
                 <li class="carrito">
                     <a href="carrito.php" title="Ver carrito de compras">
-                        <img src="imagenes/carrito.avif" alt="Carrito de compras">
+                        <img src="CromoGol-imagenes/carrito.avif" alt="Carrito de compras">
                         <span id="contador-carrito">0</span>
                     </a>
                 </li>

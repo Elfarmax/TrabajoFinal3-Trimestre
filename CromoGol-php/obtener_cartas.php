@@ -1,49 +1,42 @@
 <?php
-// Datos de conexión a la base de datos
+// obtener_cartas.php
+
+// Credenciales de la base de datos (ajusta con tus datos)
 $servername = "localhost";
 $username = "root";
 $password = "";
-$database = "CromoGol"; // Asegúrate de que coincida con el nombre de tu base de datos
+$dbname = "CromoGol";
 
-// Crear conexión
-$conn = new mysqli($servername, $username, $password, $database);
+try {
+    $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Verificar la conexión
-if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
-}
-
-// Determinar el tipo de carta a filtrar
-$tipo_carta = isset($_GET['tipo']) ? $_GET['tipo'] : null;
-$sql = "SELECT referencia, nombre, descripcion, precio, liga, equipo, temporada, tipo_carta, posicion FROM productos";
-
-if ($tipo_carta) {
-    $sql .= " WHERE tipo_carta = ?";
-    $stmt = $conn->prepare($sql);
-    if ($stmt) { // Verificar si la preparación fue exitosa
-        $stmt->bind_param("s", $tipo_carta);
-        $stmt->execute();
-        $result = $stmt->get_result();
-    } else {
-        die("Error al preparar la consulta: " . $conn->error); // Manejar error de preparación
+    // Verificar la conexión
+    if ($conn->connect_error) {
+        die("Conexión fallida: " . $conn->connect_error);
     }
-} else {
+
+    // Consulta para obtener todas las cartas
+    $sql = "SELECT referencia, nombre, precio FROM productos"; // Ajusta la consulta y las columnas
     $result = $conn->query($sql);
-    if (!$result) {
-        die("Error al ejecutar la consulta: " . $conn->error); // Manejar error de query
+
+    $cartas = array();
+    if ($result->num_rows > 0) {
+        // Almacenar cada fila como un array asociativo
+        while ($row = $result->fetch_assoc()) {
+            $cartas[] = $row;
+        }
     }
+
+    // Cerrar la conexión
+    $conn->close();
+
+    // Devolver los datos en formato JSON
+    header('Content-Type: application/json');
+    echo json_encode($cartas);
+
+} catch (Exception $e) {
+    // En caso de error, devolver un JSON con el error
+    header('Content-Type: application/json');
+    echo json_encode(array("error" => $e->getMessage()));
 }
-
-$cartas = array();
-
-if ($result && $result->num_rows > 0) { // Verificar que $result sea válido
-    while ($row = $result->fetch_assoc()) {
-        $cartas[] = $row;
-    }
-}
-
-$conn->close();
-
-header('Content-Type: application/json');
-echo json_encode($cartas);
 ?>
