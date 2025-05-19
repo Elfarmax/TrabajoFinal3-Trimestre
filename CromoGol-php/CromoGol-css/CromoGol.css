@@ -111,7 +111,7 @@ main {
 }
 
 .explorar-categorias-btn:hover {
-  background-color: #006400;
+  background-color: #0f910f;
   transform: scale(1.05);
 }
 
@@ -194,6 +194,19 @@ footer {
   color: #0da412;
   background-color: #dee2e6;
   transform: scale(1.05);
+}
+
+.boton-verde {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4caf50; /* Verde */
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.boton-verde:hover {
+  background-color: #45a049;
 }
 
 /* Media queries para responsive */

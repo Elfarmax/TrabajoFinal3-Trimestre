@@ -25,6 +25,7 @@ $result = $stmt->get_result();
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,6 +38,7 @@ $result = $stmt->get_result();
             margin-bottom: 10px;
             text-align: center;
         }
+
         .btn-anadir-carrito {
             background-color: #007bff;
             color: white;
@@ -45,25 +47,31 @@ $result = $stmt->get_result();
             cursor: pointer;
             border-radius: 5px;
         }
+
         .btn-anadir-carrito:hover {
             background-color: #0056b3;
         }
+
         .cartas-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
             margin-top: 20px;
         }
-         .error {
+
+        .error {
             color: red;
             font-weight: bold;
         }
     </style>
 </head>
+
 <body>
     <header>
         <div class="logo">
-            <a href="index.php"><h1>CromoGol</h1></a>
+            <a href="index.php">
+                <h1>CromoGol</h1>
+            </a>
         </div>
         <nav class="main-navigation">
             <ul class="main-menu open" id="main-menu">
@@ -134,42 +142,39 @@ $result = $stmt->get_result();
         <p>&copy; 2025 CromoGol tu tienda de cartas </p>
     </footer>
     <script src="CromoGol-js/carrito.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const botonesAnadir = document.querySelectorAll('.btn-anadir-carrito');
-    botonesAnadir.forEach(boton => {
-        boton.addEventListener('click', function() {
-            const referencia = this.dataset.referencia;
-            const nombre = this.dataset.nombre;
-            const precio = parseFloat(this.dataset.precio);
-            const carta = { referencia: referencia, nombre: nombre, precio: precio, cantidad: 1 };
-            agregarAlCarrito(carta); // Llama a tu función de carrito.js
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const botonesAnadir = document.querySelectorAll('.btn-anadir-carrito');
+            botonesAnadir.forEach(boton => {
+                boton.addEventListener('click', function() {
+                    const referencia = this.dataset.referencia;
+                    fetch('agregar_al_carrito.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            body: `referencia=${referencia}`,
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('Producto añadido al carrito!');
+                                const contadorCarrito = document.getElementById('contador-carrito');
+                                if (contadorCarrito && data.total_items !== undefined) {
+                                    contadorCarrito.textContent = data.total_items;
+                                }
+                            } else {
+                                alert('Error: ' + data.error);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error de red:', error);
+                            alert('Error de red al añadir al carrito.');
+                        });
+                });
+            });
         });
-    });
-
-    function agregarAlCarrito(carta) { // Mueve la función aquí o a un archivo común
-        fetch('agregar_al_carrito.php', { // <---- AQUÍ
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: `referencia=${carta.referencia}`, // Envia solo la referencia
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Producto añadido al carrito!');
-                actualizarContadorCarrito(); // Actualiza el contador del carrito
-            } else {
-                alert('Error: ' + data.error);
-            }
-        })
-        .catch(error => {
-            console.error('Error de red:', error);
-            alert('Error de red al añadir al carrito.');
-        });
-    }
-});
-</script>
+    </script>
 </body>
+
 </html>

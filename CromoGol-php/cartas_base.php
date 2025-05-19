@@ -1,16 +1,27 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cartas Base - CromoGol</title>
     <link rel="stylesheet" href="CromoGol-css/CromoGol.css">
     <link rel="stylesheet" href="CromoGol-css/cartas-base.css">
+    <style>
+        .mensaje-no-logueado {
+            color: red;
+            font-style: italic;
+            margin-top: 5px;
+        }
+    </style>
 </head>
+
 <body>
     <header>
         <div class="logo">
-            <a href="index.php"><h1>CromoGol</h1></a>
+            <a href="index.php">
+                <h1>CromoGol</h1>
+            </a>
         </div>
         <nav class="main-navigation">
             <ul class="main-menu open" id="main-menu">
@@ -79,7 +90,7 @@
                                 <p>Temporada: ${carta.temporada}</p>
                                 <p>Tipo: ${carta.tipo_carta}</p>
                                 <p>Posición: ${carta.posicion}</p>
-                                <form method="post" action="carrito.php">
+                                <form class="form-añadir-carrito" method="post" action="carrito.php">
                                     <input type="hidden" name="agregar" value="true">
                                     <input type="hidden" name="referencia" value="${carta.referencia}">
                                     <input type="hidden" name="cantidad" value="1">
@@ -90,6 +101,22 @@
                             `;
                             catalogoCartas.appendChild(cartaDiv);
                         });
+
+                        // Añadir event listeners a todos los formularios de añadir al carrito
+                        const formulariosCarrito = document.querySelectorAll('.form-añadir-carrito');
+                        formulariosCarrito.forEach(formulario => {
+                            formulario.addEventListener('submit', function(event) {
+                                // Verificar si la variable de sesión 'usuario_id' está definida (simulado en el cliente)
+                                // En una aplicación real, esta verificación se haría en el servidor.
+                                const estaLogueado = <?php echo isset($_SESSION['usuario_id']) ? 'true' : 'false'; ?>;
+
+                                if (!estaLogueado) {
+                                    event.preventDefault(); // Evitar que se envíe el formulario
+                                    alert('Debes iniciar sesión o registrarte para añadir cartas al carrito.');
+                                }
+                            });
+                        });
+
                     } else {
                         catalogoCartas.innerHTML = '<p>No hay cartas base disponibles.</p>';
                     }
@@ -100,6 +127,7 @@
                 });
         });
     </script>
-<script src="CromoGol-js/carrito.js"></script>
+    <script src="CromoGol-js/carrito.js"></script>
 </body>
+
 </html>

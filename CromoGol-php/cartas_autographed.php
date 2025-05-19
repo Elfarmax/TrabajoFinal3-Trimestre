@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,34 +11,43 @@
         .carta form {
             margin-top: 10px;
         }
+
         .carta form button.button {
-            padding: 8px 15px;
-            background-color: #007bff;
-            color: white;
-            border: none;
+            padding: 3px 10px;
+            background-color: #f0f0f0;
+            /* Color de fondo gris MUY claro */
+            color: #333;
+            border: 1px solid #ccc;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 1em;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
         }
+
         .carta form button.button:hover {
-            background-color: #0056b3;
+            background-color: #e1e1e1;
+            /* Un gris ligeramente más oscuro al pasar el ratón */
         }
-        .carta form label {
-            margin-right: 5px;
+
+        .carta form button.button:active {
+            background-color: #d1d1d1;
+            /* Un gris aún más oscuro al hacer clic */
         }
-        .carta form input[type="number"] {
-            width: 50px;
-            padding: 5px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            margin-right: 10px;
+
+        .mensaje-no-logueado {
+            color: red;
+            font-style: italic;
+            margin-top: 5px;
         }
     </style>
 </head>
+
 <body>
     <header>
         <div class="logo">
-            <a href="index.php"><h1>CromoGol</h1></a>
+            <a href="index.php">
+                <h1>CromoGol</h1>
+            </a>
         </div>
         <nav class="main-navigation">
             <ul class="main-menu open" id="main-menu">
@@ -99,11 +109,9 @@
                     echo '<p>Temporada: ' . htmlspecialchars($carta['temporada']) . '</p>';
                     echo '<p>Tipo: ' . htmlspecialchars($carta['tipo_carta']) . '</p>';
                     echo '<p>Posición: ' . htmlspecialchars($carta['posicion']) . '</p>';
-                    echo '<form method="post" action="carrito.php">';
+                    echo '<form class="form-añadir-carrito" method="post" action="carrito.php">';
                     echo '<input type="hidden" name="agregar" value="true">';
                     echo '<input type="hidden" name="referencia" value="' . htmlspecialchars($carta['referencia']) . '">';
-                    echo '<label for="cantidad_' . htmlspecialchars($carta['referencia']) . '">Cantidad:</label>';
-                    echo '<input type="number" id="cantidad_' . htmlspecialchars($carta['referencia']) . '" name="cantidad" value="1" min="1">';
                     echo '<button type="submit" class="button">Añadir al carrito</button>';
                     echo '</form>';
                     echo '</div>';
@@ -120,5 +128,21 @@
     <footer>
         <p>&copy; 2025 CromoGol tu tienda de cartas de futbol</p>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const formulariosCarrito = document.querySelectorAll('.form-añadir-carrito');
+            formulariosCarrito.forEach(formulario => {
+                formulario.addEventListener('submit', function(event) {
+                    const estaLogueado = <?php echo isset($_SESSION['usuario_id']) ? 'true' : 'false'; ?>;
+                    if (!estaLogueado) {
+                        event.preventDefault();
+                        alert('Debes iniciar sesión o registrarte para añadir cartas al carrito.');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
+
 </html>

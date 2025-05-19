@@ -39,6 +39,20 @@
             color: red;
             font-weight: bold;
         }
+
+        .boton-verde {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            /* Verde */
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .boton-verde:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 
@@ -97,7 +111,7 @@
                 <h2>Descubre un amplio catálogo de las mejores cartas de fútbol</h2>
                 <img src="CromoGol-imagenes/coleccion_futbol.avif" alt="Topps Simplicidad">
                 <br>
-                <a href="mostrar_cartas.php?categoria=base" class="button">Ver Cartas Base</a>
+                <a href="mostrar_cartas.php?categoria=base" class="boton-verde">Ver Cartas Base</a>
             </div>
         </section>
         <section class="featured-categories">
